@@ -51,7 +51,7 @@ build/
 .pytest_cache
 
 # Файлы миграций базы данных
-*/migrations/
+
 
 # Файлы зависимостей и виртуального окружения
 pip-selfcheck.json
