@@ -19,6 +19,21 @@ class AdsListView(ListView):
     def get(self, request, *args, **kwargs):
         super().get(request, *args, **kwargs)
 
+        categories = request.GET.getlist('cat', [])
+        if categories:
+            self.object_list = self.object_list.filter(category_id__in=categories)
+
+        if request.GET.get("text", None):
+            self.object_list = self.object_list.filter(name__icontains=request.GET.get("text"))
+
+        if request.GET.get('location', None):
+            self.object_list = self.object_list.filter(author__locations__name__icontains=request.GET.get('location'))
+
+        if request.GET.get('price_from', None):
+            self.object_list = self.object_list.filter(price__gte=request.GET.get('price_from'))
+
+        if request.GET.get('price_to', None):
+            self.object_list = self.object_list.filter(price__lte=request.GET.get('price_to'))
 
         self.object_list = self.object_list.select_related('author').order_by('-price')
 
@@ -36,7 +51,7 @@ class AdsListView(ListView):
                 "price": ads.price,
                 "description": ads.description,
                 "is_published": ads.is_published,
-                "image": ads.image if ads.image else None,
+                "image": ads.image.url if ads.image else None,
                 "category": ads.category.name,
                 "category_id": ads.category_id,
             })

@@ -1,8 +1,12 @@
 from django.db import models
 
+from tools import random_location
+
 
 class Location(models.Model):
     name = models.CharField(max_length=40)
+    lat = models.DecimalField(default=random_location(), decimal_places=5, max_digits=7)
+    lng = models.DecimalField(default=random_location(), decimal_places=5, max_digits=7)
 
     class Meta:
         verbose_name = "Место"

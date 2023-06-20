@@ -8,3 +8,4 @@ class MainView(View):
             return JsonResponse({"status": "ok"}, status=200)
         except:
             return JsonResponse({"status": "bad"}, status=404)
+
